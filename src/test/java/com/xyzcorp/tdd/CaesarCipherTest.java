@@ -24,7 +24,7 @@ public class CaesarCipherTest {
 		// assertEquals(cc.encrypt(""), "");
 		// 3. String result = CaesarCipher.encrypt("", 4)
 		// assertEquals(result, "");
-		
+
 		CaesarCipher cc = new CaesarCipher(5);
 		assertEquals("", cc.encrypt(""));
 	}
@@ -33,15 +33,14 @@ public class CaesarCipherTest {
 	public void testEncryptionWithANull() {
 		CaesarCipher cc = new CaesarCipher(5);
 		try {
-		   cc.encrypt(null);
-		   fail("Expected a failure here");
-		} catch(NullPointerException npe) {
-		   assertEquals("String cannot be null", 
-				   npe.getMessage());
+			cc.encrypt(null);
+			fail("Expected a failure here");
+		} catch (NullPointerException npe) {
+			assertEquals("String cannot be null", npe.getMessage());
 		}
 	}
 
-	//Not Preferred
+	// Not Preferred
 	@Test(expected = NullPointerException.class)
 	public void testEncryptionWithANullAnnotation() {
 		CaesarCipher cc = new CaesarCipher(5);
@@ -50,7 +49,6 @@ public class CaesarCipherTest {
 
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
-
 
 	@Test
 	public void testEncryptionWithANullRule() {
@@ -65,42 +63,79 @@ public class CaesarCipherTest {
 		CaesarCipher cc = new CaesarCipher(0);
 		assertEquals("A", cc.encrypt("A"));
 	}
-	
-	
+
 	@Test
 	public void testEncryptWithShift1AndStringOneItem() {
 		CaesarCipher cc = new CaesarCipher(1);
 		assertEquals("C", cc.encrypt("B"));
 	}
-	
-	//NonRedBar
+
+	// NonRedBar
 	@Test
 	public void testEncryptWithShift2AndStringOneItem() {
 		CaesarCipher cc = new CaesarCipher(2);
 		assertEquals("D", cc.encrypt("B"));
 	}
-	
+
 	@Test
 	public void testEncryptWithShift2AndStringOneItemBeingAZ() {
 		CaesarCipher cc = new CaesarCipher(2);
 		assertEquals("B", cc.encrypt("Z"));
 	}
-	
+
 	@Test
 	public void testEncryptWithFiveLetterWordAndShiftOf2() {
 		CaesarCipher cc = new CaesarCipher(2);
 		assertEquals("BGDTC", cc.encrypt("ZEBRA"));
 	}
-	
+
 	@Test
 	public void testEncryptWithTwoWordsAndShiftOf2() {
 		CaesarCipher cc = new CaesarCipher(2);
 		assertEquals("BGDTC UVTKRG", cc.encrypt("ZEBRA STRIPE"));
 	}
-	
-	public void testWithDashesAndQuotes() {
-		
+
+	@Test
+	public void testWithDashesCommasAndQuotes() {
+		CaesarCipher cc = new CaesarCipher(2);
+		assertEquals("BGDTC,- \"UVTKRG\"", cc.encrypt("ZEBRA,- \"STRIPE\""));
 	}
-	//???
-	public void testNegativeShift() {}
+
+	@Test
+	public void testWithCommasAndQuotesAndUnderscore() {
+		CaesarCipher cc = new CaesarCipher(2);
+		assertEquals("BGDTC,_ \"UVTKRG\"", cc.encrypt("ZEBRA,_ \"STRIPE\""));
+	}
+
+	@Test
+	public void testEncryptWithShiftNegative2AndStringOneItem() {
+		CaesarCipher cc = new CaesarCipher(-2);
+		assertEquals("Z", cc.encrypt("B"));
+	}
+
+	@Test
+	public void testEncryptWithShiftNegative28AndStringOneItem() {
+		CaesarCipher cc = new CaesarCipher(-28);
+		assertEquals("Z", cc.encrypt("B"));
+	}
+
+	@Test
+	public void testEncryptWithTwoWordsAndShiftOfNegative2() {
+		CaesarCipher cc = new CaesarCipher(-2);
+		assertEquals("ZEBRA STRIPE", cc.encrypt("BGDTC UVTKRG"));
+	}
+
+	@Test
+	public void testDecryptWithShift2StringOneItem() {
+		CaesarCipher cc = new CaesarCipher(2);
+		assertEquals("Z", cc.decrypt("B"));
+	}
+
+	@Test
+	public void testDecryptionWithANullRule() {
+		thrown.expect(NullPointerException.class);
+		thrown.expectMessage("String cannot be null");
+		CaesarCipher cc = new CaesarCipher(5);
+		cc.decrypt(null);
+	}
 }

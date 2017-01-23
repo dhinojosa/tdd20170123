@@ -1,29 +1,36 @@
 package com.xyzcorp.tdd;
 
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 public class CaesarCipher {
 
-	private int shift;
+	private int defaultShift;
 
-	public CaesarCipher(int shift) {
-		this.shift = shift;
+	public CaesarCipher(int defaultShift) {
+		this.defaultShift = defaultShift;
 	}
 
-	private char convert(char c) {
+	private int convert(int c, int shift) {
 		if (c < 'A' || c > 'Z')
 			return c;
 		int charShifted = c + shift - 'A';
-		return (char) (charShifted % ('Z' - 'A' + 1) + 'A');
+		int alphaLen = 'Z' - 'A' + 1;
+		return (charShifted % alphaLen + alphaLen) % alphaLen + 'A';
+	}
+	
+	private String helper(String string, int shift) {
+		Objects.requireNonNull(string, "String cannot be null");
+		return string.chars().boxed()
+				.map(i -> "" + (char) convert(i.intValue(), shift))
+				.collect(Collectors.joining());
 	}
 
 	public String encrypt(String string) {
-		if (null == string)
-			throw new NullPointerException("String cannot be null");
-		if (string.isEmpty())
-			return "";
-		String result = "";
-		for (char c : string.toCharArray()) {
-			result += convert(c);
-		}
-		return result;
+        return helper(string, defaultShift);
+	}
+
+	public String decrypt(String string) {
+		return helper(string, -defaultShift);
 	}
 }
