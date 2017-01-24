@@ -1,0 +1,26 @@
+
+
+public void method2(
+           Function<String, Resource> resourceFinder) {
+    Resource resource = 
+          resourceFinder.apply("/accounts/resource")
+    resource.addDeposit(3000.00);
+}
+
+--------
+
+public void testResources() {
+    
+    Resource fakeResource = new Resource();
+
+    method2((s) -> fakeResource));
+
+    method2(new Function<String, Resource>() {
+       public void apply(String str) {
+          return fakeResource;
+       }
+    });
+
+    assertEquals(fakeResource.balance, 3000);
+
+}
