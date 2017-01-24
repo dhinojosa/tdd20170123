@@ -13,12 +13,7 @@ public class CaesarCipher {
 	
 	private int convert(int c, int shift) {
 		if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')) return c;
-	
-		int offset = 'A';
-		if (Character.isLowerCase(c)) {
-			offset = 'a';
-		}
-		
+		int offset = Character.isLowerCase(c) ? 'a' : 'A';
 		int charShifted = c + shift - offset;
 		int alphaLen = 'Z' - 'A' + 1;
 		return (charShifted % alphaLen + alphaLen) % alphaLen + offset;
