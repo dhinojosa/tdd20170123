@@ -117,4 +117,9 @@ public class DieTest {
         assertThat(rolledDie.getPips()).isGreaterThan(0).isLessThan(7);
     }
     
+    @Test
+    public void testFactoryCreateDie() {
+    	     Die die = Die.createStandardDie();
+    	     assertThat(die).isNotNull();
+    }
 }
