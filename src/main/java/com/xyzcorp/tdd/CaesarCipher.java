@@ -10,19 +10,24 @@ public class CaesarCipher {
 	public CaesarCipher(int defaultShift) {
 		this.defaultShift = defaultShift;
 	}
-
+	
 	private int convert(int c, int shift) {
-		if (c < 'A' || c > 'Z')
-			return c;
-		int charShifted = c + shift - 'A';
+		if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z')) return c;
+	
+		int offset = 'A';
+		if (Character.isLowerCase(c)) {
+			offset = 'a';
+		}
+		
+		int charShifted = c + shift - offset;
 		int alphaLen = 'Z' - 'A' + 1;
-		return (charShifted % alphaLen + alphaLen) % alphaLen + 'A';
+		return (charShifted % alphaLen + alphaLen) % alphaLen + offset;
 	}
 	
 	private String helper(String string, int shift) {
 		Objects.requireNonNull(string, "String cannot be null");
 		return string.chars().boxed()
-				.map(i -> "" + (char) convert(i.intValue(), shift))
+				.map(i -> "" + (char) convert(i, shift))
 				.collect(Collectors.joining());
 	}
 

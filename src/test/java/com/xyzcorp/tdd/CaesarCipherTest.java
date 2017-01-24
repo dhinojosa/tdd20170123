@@ -11,7 +11,8 @@ import org.junit.rules.ExpectedException;
 
 public class CaesarCipherTest {
 
-	// 1. Is there existing class that this should belong to?
+	// 1. Is there existing class that this
+	//    should belong to?
 	// 2. Do I want to create it static method?
 	// 3. Do I want to create or instance method?
 	// 4. Find the simplest thing to test.
@@ -137,5 +138,25 @@ public class CaesarCipherTest {
 		thrown.expectMessage("String cannot be null");
 		CaesarCipher cc = new CaesarCipher(5);
 		cc.decrypt(null);
+	}
+	
+	@Test
+	public void testEncryptWithShift1AndStringOneItemLowerCase() {
+		CaesarCipher cc = new CaesarCipher(1);
+		assertEquals("c", cc.encrypt("b"));
+	}
+	
+	@Test
+	public void testPropertyEncryptAndDecrypt() {
+		CaesarCipher cc = new CaesarCipher(40);
+		String value = "The quick BroWn Fox~Jumps over ++ the LazY DOG!";
+		assertEquals(value, cc.decrypt(cc.encrypt(value)));
+	}
+	
+	@Test
+	public void testPropertyEncryptAndDecryptWithAShiftOf120() {
+		CaesarCipher cc = new CaesarCipher(120);
+		String value = "The quick BroWn Fox~Jumps over ++ the LazY DOG!";
+		assertEquals(value, cc.decrypt(cc.encrypt(value)));
 	}
 }
